@@ -109,12 +109,12 @@ Traktor.Stripe {
     id: posIndicatorBox
 
     property int roundedX:  (relativePlayPos * (parent.width - posIndicator.width) - 0.5*width)
-    readonly property real relativePlayPos: Math.max(Math.min(elapsedTime.value / trackLength.value, 1.0), 0)
+    readonly property real relativePlayPos: elapsedTime.value / trackLength.value
 
     AppProperty { id: elapsedTime; path: "app.traktor.decks." + (deckId+1) + ".track.player.elapsed_time" }
     x:                 roundedX            
     anchors.top:       parent.top
-    height:            parent.height // 28
+    height:            28
     width:             Math.max (parent.indicatorBoxWidth - (1 - parent.indicatorBoxWidth%2) , 5) // 
     
     radius:            1
@@ -182,43 +182,5 @@ Traktor.Stripe {
     }
   }
 
-  //--------------------------------------------------------------------------------------------------------------------
-
-  Rectangle
-  {
-    id: darkenAlreadyPlayedBox
-
-    anchors.top:       parent.top
-    anchors.left:      parent.left
-    height:            parent.height
-    width:             Math.max(Math.min(elapsedTime.value / trackLength.value, 1), 0) * parent.width
-    
-    radius:            1
-    color:             colors.colorBlack66
-    antialiasing:      false
-  }
-
-  //--------------------------------------------------------------------------------------------------------------------
-
-  Repeater {
-    id: minuteMarkers
-    model: Math.floor(trackLength.value / 60)
-
-    Rectangle {
-      anchors.bottom:  parent.bottom
-      x:               sampleToStripe(60 * (index + 1)) - 1
-      width:           3
-      height:          5
-      color:           colors.colorBlack
-    }
-
-    Rectangle {
-      anchors.bottom:  parent.bottom
-      x:               sampleToStripe(60 * (index + 1))
-      width:           1
-      height:          3
-      color:           colors.colorWhite
-    }
-  }
 
 }

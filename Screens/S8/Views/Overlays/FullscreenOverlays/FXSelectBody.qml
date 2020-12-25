@@ -16,15 +16,15 @@ Item {
   property int  activeTab:       1
   property int  currentView:     (activeTab == FxOverlay.upper_button_1) ? 2 : ((activeTab < FxOverlay.lower_button_1) || (fxViewSelectProp.value == FxType.Group) ? 1 : 0)
 
-  readonly property int delegateHeight:   26 // 27
+  readonly property int delegateHeight:   27
   readonly property int emptyView:        0
   readonly property int tableView:        1
   readonly property int settingsView:     2
   readonly property int macroEffectChar:  0x00B6
 
   clip:                 true
-  anchors.margins:      7 // 5
-//  anchors.bottomMargin: 10
+  anchors.margins:      5
+  anchors.bottomMargin: 10
 
   //--------------------------------------------------------------------------------------------------------------------
 
@@ -51,17 +51,15 @@ Item {
   // effects list
   ListView {
     id: fxList
-    anchors.fill:      parent
-    // anchors.top:       parent.top
-    // anchors.left:      parent.left
-    // anchors.right:     parent.right
-    anchors.topMargin: 20 // 33
-    anchors.bottomMargin: 4
-    // height:            189
+    anchors.top:       parent.top
+    anchors.left:      parent.left
+    anchors.right:     parent.right
+    anchors.topMargin: 33
+    height:            189
     clip:              true
 
-    preferredHighlightBegin:     (height / 2) - (delegateHeight / 2)
-    preferredHighlightEnd:       (height / 2) + (delegateHeight / 2)
+    preferredHighlightBegin:     3*delegateHeight //- 6
+    preferredHighlightEnd:       4*delegateHeight //- 6
     highlightRangeMode :         ListView.ApplyRange
     highlightMoveVelocity:     800
     highlightMoveDuration:       10
@@ -85,10 +83,10 @@ Item {
         fillMode:            Image.PreserveAspectCrop
         width:               sourceSize.width
         height:              sourceSize.height
-        anchors.left:       fxName.right
+        anchors.right:       fxName.left
         anchors.top:         parent.top
-        anchors.leftMargin: 5
-        anchors.topMargin:   4 // 5
+        anchors.rightMargin: 5
+        anchors.topMargin:   5
         visible:             false  
         smooth:              false    
       }
@@ -103,13 +101,13 @@ Item {
 
       Text {
         id: fxName
-        // anchors.centerIn: parent
-        horizontalAlignment: Text.AlignLeft
-        // anchors.horizontalCenterOffset: isMacroFx ? 10 : 0
+        anchors.centerIn: parent
+
+        anchors.horizontalCenterOffset: isMacroFx ? 10 : 0
         font.pixelSize: fonts.largeFontSize
         font.capitalization: Font.AllUppercase
         color: colors.colorFontsListFx
-        text: isMacroFx? modelData.substr(2) : modelData
+        text: isMacroFx? modelData.substr(1) : modelData
       }
 
       Component.onCompleted: {

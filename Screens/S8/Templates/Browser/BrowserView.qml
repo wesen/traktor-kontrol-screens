@@ -24,10 +24,10 @@ Templates.View {
   property color focusColor:    (screen.focusDeckId < 2) ? colors.colorDeckBlueBright : "white" 
   property int   speed:         150
   property real  sortingKnobValue:  0
-  property int   pageSize:          prefs.displayMoreItems ? 9 : 7 // 7
+  property int   pageSize:          7
   property int   fastScrollCenter:  3
 
-  readonly property int  maxItemsOnScreen: prefs.displayMoreItems ? 9 : 7 // 8
+  readonly property int  maxItemsOnScreen: 8
 
   // This is used by the footer to change/display the sorting!
   property alias sortingId:         browser.sorting
@@ -149,7 +149,7 @@ Templates.View {
       Rectangle { 
         color: ( (contentList.count + index)%2 == 0) ? colors.colorGrey08 : "transparent"
         width: qmlBrowser.width; 
-        height: prefs.displayMoreItems ? 25 : 32 /* 33 */ }
+        height: 33 }
     }
   }
 
@@ -157,20 +157,18 @@ Templates.View {
 
   ListView {
     id: contentList
-    anchors.top:              browserHeader.bottom
-    anchors.left:             parent.left
-    anchors.right:            parent.right
+    anchors.fill: parent
     verticalLayoutDirection: ListView.TopToBottom
     // the top/bottom margins are applied only at the beginning/end of the list in order to show half entries while scrolling 
     // and keep the list delegates in the same position always.
 
     // the commented out margins caused browser anchor problems leading to a disappearing browser! check later !?
-    anchors.topMargin:       3 // 17 // ( (contentList.count <  qmlBrowser.maxItemsOnScreen ) || (currentIndex < 4                     )) ? 17 : 0
-    height:                   (qmlBrowser.pageSize * (prefs.displayMoreItems ? 26 : 33)) - 1 // adjust for spacing
+    anchors.topMargin:       17 // ( (contentList.count <  qmlBrowser.maxItemsOnScreen ) || (currentIndex < 4                     )) ? 17 : 0
+    anchors.bottomMargin:    18 // ( (contentList.count >= qmlBrowser.maxItemsOnScreen) && (currentIndex >= contentList.count - 4)) ? 18 : 0 
     clip:                    false
     spacing:                 1
-    preferredHighlightBegin:  parseInt((height / 2) - (prefs.displayMoreItems ? 12.5 : 16)) 
-    preferredHighlightEnd:    preferredHighlightBegin + (prefs.displayMoreItems ? 25 : 32)
+    preferredHighlightBegin: 119 - 17 // -17 because of the reduced height due to the topMargin
+    preferredHighlightEnd  : 152 - 17 // -17 because of the reduced height due to the topMargin
     highlightRangeMode :     ListView.ApplyRange
     highlightMoveDuration:   0
     delegate:                BrowserView.ListDelegate  {id: listDelegate; screenFocus: screen.focusDeckId; }

@@ -23,7 +23,7 @@ Text {
   readonly property int     isMaster:  (propSyncMasterDeck.value == deckId) ? 1 : 0
 
   readonly property string  fontForNumber: "Pragmatica"
-  readonly property string  fontForString: "Pragmatica" //  MediumTT"
+  readonly property string  fontForString: "Pragmatica MediumTT"
 
 
   // Properties of the TextItem itself. Anchors are set from outside
@@ -39,7 +39,6 @@ Text {
   //--------------------------------------------------------------------------------------------------------------------
   AppProperty { id: propDeckType;       path: "app.traktor.decks." + (deckId+1) + ".type" }
   AppProperty { id: primaryKey;         path: "app.traktor.decks." + (deckId+1) + ".track.content.entry_key" }
-  AppProperty { id: keyDisplay;         path: "app.traktor.decks." + (deckId+1) + ".track.key.resulting.precise" }
   
   AppProperty { id: propTitle;          path: "app.traktor.decks." + (deckId+1) + ".content.title" }
   AppProperty { id: propArtist;         path: "app.traktor.decks." + (deckId+1) + ".content.artist" }
@@ -84,7 +83,7 @@ Text {
                                             "trackLength", "bitrate", "bpmTrack", "gain", "elapsedTime", "remainingTime", 
                                             "beats", "beatsToCue", "bpm", "tempo", "key", "keyText", "comment", "comment2",
                                             "remixer", "pitchRange", "bpmStable", "tempoStable", "sync", "off", "off", "bpmTrack",
-                                            "remixBeats", "remixQuantize", "keyDisplay"]
+                                            "remixBeats", "remixQuantize"]
 
 /*
   readonly property variant stateMapping:  [0:  "title",          1: "artist",       2:  "release", 
@@ -97,7 +96,7 @@ Text {
                                             21: "remixer",       22: "pitchRange",  23: "bpmStable", 
                                             24: "tempoStable",   25: "sync",        26: "off", 
                                             27: "off",           28: "bpmTrack"     29: "remixBeats"
-                                            30: "remixQuantize", 31: "keyDisplay"]
+                                            30: "remixQuantize"]
 */
   //--------------------------------------------------------------------------------------------------------------------
   //  STATES FOR THE LABELS IN THE DECK HEADER
@@ -215,7 +214,7 @@ Text {
     State { 
       name: "tempo"; 
       PropertyChanges { target: header_text; font.family: fontForNumber; 
-                        text:   (!isLoaded)?"":((propTempo.value-1 < 0)?"":"+") + ((propTempo.value-1)*100).toFixed(2).toString() + "%"; }
+                        text:   (!isLoaded)?"":((propTempo.value-1 < 0)?"":"+") + ((propTempo.value-1)*100).toFixed(1).toString() + "%"; }
     },
     State { 
       name: "tempoStable"; 
@@ -246,7 +245,7 @@ Text {
     
     State { 
       name: "sync";
-      PropertyChanges { target: header_text; font.family: fontForString; 
+      PropertyChanges { target: header_text; font.family: fontForNumber; 
                         text:  getSyncStatusString(); }
     },
     State { 
@@ -258,11 +257,6 @@ Text {
       name: "remixQuantize";
       PropertyChanges { target: header_text; font.family: fontForNumber; 
                         text:  (!isLoaded) ? "" : ((propRemixIsQuantize.value)? "Q " + propRemixQuantize.description : "Off"); }
-    },
-    State { 
-      name: "keyDisplay"; 
-      PropertyChanges { target: header_text; font.family: fontForNumber;
-                        text: (!isLoaded)?"":(prefs.camelotKey ? utils.convertToCamelot(keyDisplay.value) : keyDisplay.value); }
     }
   ] 
 
@@ -285,7 +279,7 @@ Text {
 
 
   function computeBeatCounterStringFromPosition(beat) {
-    var phraseLen = prefs.phraseLength;
+    var phraseLen = 4;
     var curBeat  = parseInt(beat);
 
     if (beat < 0.0)

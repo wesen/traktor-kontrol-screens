@@ -74,7 +74,6 @@ Item {
   Defines.Utils  {id: utils}
   Defines.Colors {id: colors}
   Defines.Durations {id: durations}
-  Defines.Prefs {id: prefs}
 
   width:  480
   height: 272

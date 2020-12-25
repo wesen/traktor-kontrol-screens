@@ -4,15 +4,6 @@ QtObject {
 
   function rgba(r,g,b,a) { return Qt.rgba(  neutralizer(r)/255. ,  neutralizer(g)/255. ,  neutralizer(b)/255. , neutralizer(a)/255. ) }
 
-  readonly property variant textColors:         [colors.colorDeckBlueBright,  colors.colorDeckBlueBright,   colors.colorGrey232,  colors.colorGrey232 ]
-  readonly property variant mixerFXColors:      [colors.colorMixerFXOrange, colors.colorMixerFXRed, colors.colorMixerFXGreen, colors.colorMixerFXBlue, colorMixerFXYellow]
-
-  property variant colorMixerFXOrange:          rgba(250, 132, 42, 255)
-  property variant colorMixerFXRed:             rgba(254, 0, 0, 255)
-  property variant colorMixerFXGreen:           rgba(78, 225, 12, 255)
-  property variant colorMixerFXBlue:            rgba(92, 201, 238, 255)
-  property variant colorMixerFXYellow:          rgba(254, 217, 36, 255)
-
   // this categorizes any rgb value to multiples of 8 for each channel to avoid unbalanced colors on the display (r5-g6-b5 bit)
   // function neutralizer(value) { if(value%8 > 4) { return  value - value%8 + 8} else { return  value - value%8 }}
   function neutralizer(value) { return value}
@@ -488,16 +479,12 @@ QtObject {
     // Fuchsia - #ff0032
     { low1:  rgba (255,   0,  50, 150),  low2:  rgba (255,  30,  60, 170),
       mid1:  rgba (255, 110, 110, 130),  mid2:  rgba (255, 125, 125, 160),
-      high1: rgba (255, 210, 220, 140),  high2: rgba (255, 220, 230, 160) },
-    // Spectrum-like colors   
-    { low1:  rgba (255,  50,   0, 150),  low2:  rgba (255,  70,  20, 170),
-      mid1:  rgba ( 80, 245,  80, 110),  mid2:  rgba ( 95, 245,  95, 130),
-      high1: rgba ( 30,  85, 170, 255),  high2: rgba ( 50, 100, 180, 255)}
+      high1: rgba (255, 210, 220, 140),  high2: rgba (255, 220, 230, 160) }
   ]
 
   function getDefaultWaveformColors()
   {
-    return waveformColorsMap[prefs.spectrumWaveformColors ? 17 : 0];
+    return waveformColorsMap[0];
   }
 
   function getWaveformColors(colorId)
